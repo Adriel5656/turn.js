@@ -5,32 +5,22 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="turn.min.js"></script>
     <style type="text/css">
-        body { background:#525252; display:flex; justify-content:center; align-items:center; height:100vh; margin:0; overflow:hidden; }
-        #flipbook { width:800px; height:566px; } /* A5比例約為1:1.414，兩張合起來約為800x566 */
+        body { background:#525252; display:flex; justify-content:center; align-items:center; height:100vh; margin:0; }
+        #flipbook { width:800px; height:566px; }
         #flipbook .page { width:400px; height:566px; background-color:white; background-size:100% 100%; background-repeat:no-repeat; }
     </style>
 </head>
 <body>
-    <div id="flipbook">
-        </div>
-
+    <div id="flipbook"></div>
     <script type="text/javascript">
-        // 動態生成14個頁面標籤
-        for (var i = 1; i <= 14; i++) {
+        // 這裡改成了 .jpeg 以符合您的文件名
+        for (var i = 1; i <= 12; i++) {
             $('<div />', {
                 'class': 'page',
                 'style': 'background-image:url(pages/' + i + '.jpeg)'
             }).appendTo('#flipbook');
         }
-
-        // 初始化翻頁插件
-        $("#flipbook").turn({
-            width: 800,
-            height: 566,
-            autoCenter: true,
-            gradients: true,
-            acceleration: true
-        });
+        $("#flipbook").turn({ width: 800, height: 566, autoCenter: true });
     </script>
 </body>
 </html>
