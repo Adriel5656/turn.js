@@ -3,20 +3,22 @@
 <head>
     <meta charset="utf-8">
     <title>Agape 2月訊</title>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="turn.js"></script>
-
+    
     <meta property="og:title" content="Agape 2月訊">
     <meta property="og:description" content="點擊閱讀最新的 2026 年 2 月訊翻頁電子書">
     <meta property="og:image" content="https://adriel5656.github.io/turn.js/pages/1.jpeg">
+    <meta property="og:image:width" content="400">
+    <meta property="og:image:height" content="566">
     <meta property="og:url" content="https://adriel5656.github.io/turn.js/">
     <meta property="og:type" content="website">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="turn.js"></script>
 
     <style type="text/css">
         body { background: #525252; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
         #flipbook { width: 800px; height: 566px; }
-        #flipbook .page { width: 400px; height: 566px; background-color: white; background-size: 100% 100%; background-repeat:no-repeat; }
-        /* 讓鼠標變成手指，提示可以點擊 */
+        #flipbook .page { width: 400px; height: 566px; background-color: white; background-size: 100% 100%; background-repeat: no-repeat; }
         #flipbook .page:hover { cursor: pointer; }
     </style>
 </head>
@@ -36,26 +38,19 @@
             width: 800,
             height: 566,
             autoCenter: true,
-            display: 'double', // 雙頁模式
+            display: 'double',
             acceleration: true,
             gradients: true,
-            duration: 600, // 翻頁動畫持續 600 毫秒
-            // 禁用預設的角落偵測，避免干擾自定義點擊
-            turnCorners: "bl,br" 
+            duration: 600
         });
 
-        // 【核心修正】全頁面點擊邏輯
+        // 點擊即翻頁邏輯
         $('#flipbook').bind('mousedown', function(e) {
             var offset = $(this).offset();
             var relativeX = e.pageX - offset.left;
-            var bookWidth = $(this).width();
-
-            // 判斷點擊位置
-            if (relativeX > bookWidth / 2) {
-                // 點擊右半邊 -> 翻下一頁
+            if (relativeX > $(this).width() / 2) {
                 $('#flipbook').turn('next');
             } else {
-                // 點擊左半邊 -> 翻上一頁
                 $('#flipbook').turn('previous');
             }
         });
