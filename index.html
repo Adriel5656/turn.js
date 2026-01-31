@@ -2,25 +2,40 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <title>2月訊翻頁書</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="turn.min.js"></script>
     <style type="text/css">
-        body { background:#525252; display:flex; justify-content:center; align-items:center; height:100vh; margin:0; }
-        #flipbook { width:800px; height:566px; }
-        #flipbook .page { width:400px; height:566px; background-color:white; background-size:100% 100%; background-repeat:no-repeat; }
+        body { background:#333; margin:0; display:flex; justify-content:center; align-items:center; height:100vh; }
+        #flipbook { width:800px; height:566px; visibility: hidden; } /* 初始隱藏，加載後顯示 */
+        #flipbook .page { width:400px; height:566px; background-color:white; background-size:contain; background-repeat:no-repeat; background-position:center; border:1px solid #ccc; }
     </style>
 </head>
 <body>
-    <div id="flipbook"></div>
+    <div id="flipbook">
+        <div class="page" style="background-image:url('pages/1.jpeg');"></div>
+        <div class="page" style="background-image:url('pages/2.jpeg');"></div>
+        <div class="page" style="background-image:url('pages/3.jpeg');"></div>
+        <div class="page" style="background-image:url('pages/4.jpeg');"></div>
+        <div class="page" style="background-image:url('pages/5.jpeg');"></div>
+        <div class="page" style="background-image:url('pages/6.jpeg');"></div>
+        <div class="page" style="background-image:url('pages/7.jpeg');"></div>
+        <div class="page" style="background-image:url('pages/8.jpeg');"></div>
+        <div class="page" style="background-image:url('pages/9.jpeg');"></div>
+        <div class="page" style="background-image:url('pages/10.jpeg');"></div>
+        <div class="page" style="background-image:url('pages/11.jpeg');"></div>
+        <div class="page" style="background-image:url('pages/12.jpeg');"></div>
+    </div>
+
     <script type="text/javascript">
-        // 這裡改成了 .jpeg 以符合您的文件名
-        for (var i = 1; i <= 12; i++) {
-            $('<div />', {
-                'class': 'page',
-                'style': 'background-image:url(pages/' + i + '.jpeg)'
-            }).appendTo('#flipbook');
-        }
-        $("#flipbook").turn({ width: 800, height: 566, autoCenter: true });
+        $(window).ready(function() {
+            $('#flipbook').turn({
+                width: 800,
+                height: 566,
+                autoCenter: true
+            });
+            $('#flipbook').css('visibility', 'visible');
+        });
     </script>
 </body>
 </html>
