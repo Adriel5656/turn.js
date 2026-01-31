@@ -2,81 +2,59 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Agape 2月訊 - 翻頁電子書</title>
+    <title>Agape 2月訊</title>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="turn.js"></script>
 
     <style type="text/css">
-        /* 背景與排版 */
-        body { 
-            background: #525252; 
-            margin: 0; 
-            padding: 0; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            overflow: hidden; 
-        }
-
-        /* 翻頁書主容器：寬度設為兩張 A5 合併後的比例 */
-        #flipbook { 
-            width: 800px; 
-            height: 566px; 
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-
-        /* 每一頁的共同樣式 */
-        #flipbook .page { 
-            width: 400px; 
-            height: 566px; 
-            background-color: white; 
-            background-size: 100% 100%; 
-            background-repeat: no-repeat; 
-        }
-
-        /* 鼠標樣式提醒可以翻頁 */
-        #flipbook .page:hover { 
-            cursor: pointer; 
-        }
+        body { background: #525252; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        #flipbook { width: 800px; height: 566px; }
+        #flipbook .page { width: 400px; height: 566px; background-color: white; background-size: 100% 100%; background-repeat: no-repeat; }
+        /* 讓滑鼠變成手指形狀，提示可以點擊 */
+        #flipbook .page:hover { cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div id="flipbook">
-    </div>
+<div id="flipbook"></div>
 
 <script type="text/javascript">
     $(window).ready(function() {
-        // 1. 動態插入您的 12 張 .jpeg 圖片
-        var totalPages = 12;
-        for (var i = 1; i <= totalPages; i++) {
-            var pageDiv = $('<div />', {
-                'class': 'page',
-                'style': 'background-image:url(pages/' + i + '.jpeg)'
-            });
-            $('#flipbook').append(pageDiv);
+        // 動態生成 12 頁
+        for (var i = 1; i <= 12; i++) {
+            $('#flipbook').append('<div class="page" style="background-image:url(pages/' + i + '.jpeg)"></div>');
         }
 
-        // 2. 初始化 turn.js 插件
+        // 初始化翻頁插件
         $('#flipbook').turn({
-            width: 800,           // 總寬度 (兩頁)
-            height: 566,          // 總高度
-            autoCenter: true,     // 自動居中
-            display: 'double',    // 強制雙頁顯示
-            acceleration: true,   // 硬體加速加速動畫
-            gradients: true,      // 啟用翻頁陰影效果
-            duration: 600         // 翻頁動畫時間 (毫秒)
+            width: 800,
+            height: 566,
+            autoCenter: true,
+            display: 'double', // 雙頁模式
+            acceleration: true,
+            gradients: true,
+            duration: 600 // 翻頁速度
+        });
+
+        // 【關鍵代碼】點擊頁面即翻頁
+        $('#flipbook').bind('touchstart mousedown', function(e) {
+            var offset = $(this).offset();
+            var relativeX = (e.pageX || e.originalEvent.touches[0].pageX) - offset.left;
+
+            // 如果點擊書的右半邊，翻下一頁；點擊左半邊，翻上一頁
+            if (relativeX > $(this).width() / 2) {
+                $('#flipbook').turn('next');
+            } else {
+                $('#flipbook').turn('previous');
+            }
+            e.preventDefault();
         });
     });
 
-    // 3. 支持鍵盤左右鍵翻頁
+    // 鍵盤翻頁支持
     $(window).bind('keydown', function(e) {
-        if (e.keyCode == 37) {
-            $('#flipbook').turn('previous');
-        } else if (e.keyCode == 39) {
-            $('#flipbook').turn('next');
-        }
+        if (e.keyCode == 37) $('#flipbook').turn('previous');
+        else if (e.keyCode == 39) $('#flipbook').turn('next');
     });
 </script>
 
