@@ -6,25 +6,29 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="turn.min.js"></script>
     <style type="text/css">
-        body { background:#333; margin:0; display:flex; justify-content:center; align-items:center; height:100vh; }
-        #flipbook { width:800px; height:566px; visibility: hidden; } /* 初始隱藏，加載後顯示 */
-        #flipbook .page { width:400px; height:566px; background-color:white; background-size:contain; background-repeat:no-repeat; background-position:center; border:1px solid #ccc; }
+        body { background:#333; margin:0; display:flex; justify-content:center; align-items:center; height:100vh; overflow:hidden; }
+        #flipbook { width:800px; height:566px; }
+        /* 設定每一頁的樣式 */
+        #flipbook .page { width:400px; height:566px; background-color:white; background-size:100% 100%; background-repeat:no-repeat; }
+        /* 鼠標指針樣式，提醒用戶可以點擊 */
+        #flipbook .page:hover { cursor: pointer; }
     </style>
 </head>
 <body>
+
     <div id="flipbook">
-        <div class="page" style="background-image:url('pages/1.jpeg');"></div>
-        <div class="page" style="background-image:url('pages/2.jpeg');"></div>
-        <div class="page" style="background-image:url('pages/3.jpeg');"></div>
-        <div class="page" style="background-image:url('pages/4.jpeg');"></div>
-        <div class="page" style="background-image:url('pages/5.jpeg');"></div>
-        <div class="page" style="background-image:url('pages/6.jpeg');"></div>
-        <div class="page" style="background-image:url('pages/7.jpeg');"></div>
-        <div class="page" style="background-image:url('pages/8.jpeg');"></div>
-        <div class="page" style="background-image:url('pages/9.jpeg');"></div>
-        <div class="page" style="background-image:url('pages/10.jpeg');"></div>
-        <div class="page" style="background-image:url('pages/11.jpeg');"></div>
-        <div class="page" style="background-image:url('pages/12.jpeg');"></div>
+        <div style="background-image:url(pages/1.jpeg);"></div>
+        <div style="background-image:url(pages/2.jpeg);"></div>
+        <div style="background-image:url(pages/3.jpeg);"></div>
+        <div style="background-image:url(pages/4.jpeg);"></div>
+        <div style="background-image:url(pages/5.jpeg);"></div>
+        <div style="background-image:url(pages/6.jpeg);"></div>
+        <div style="background-image:url(pages/7.jpeg);"></div>
+        <div style="background-image:url(pages/8.jpeg);"></div>
+        <div style="background-image:url(pages/9.jpeg);"></div>
+        <div style="background-image:url(pages/10.jpeg);"></div>
+        <div style="background-image:url(pages/11.jpeg);"></div>
+        <div style="background-image:url(pages/12.jpeg);"></div>
     </div>
 
     <script type="text/javascript">
@@ -32,9 +36,21 @@
             $('#flipbook').turn({
                 width: 800,
                 height: 566,
-                autoCenter: true
+                autoCenter: true,
+                acceleration: true, // 開啟硬件加速
+                gradients: true,    // 開啟陰影效果
+                when: {
+                    turning: function(event, page, view) {
+                        console.log('正在翻到第 ' + page + ' 頁');
+                    }
+                }
             });
-            $('#flipbook').css('visibility', 'visible');
+        });
+
+        // 點擊頁面邊緣也可以翻頁
+        $(window).bind('keydown', function(e) {
+            if (e.keyCode == 37) $('#flipbook').turn('previous');
+            else if (e.keyCode == 39) $('#flipbook').turn('next');
         });
     </script>
 </body>
